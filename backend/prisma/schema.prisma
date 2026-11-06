@@ -1,0 +1,26 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Genre {
+  id    Int    @id @default(autoincrement())
+  name  String
+  books Book[]
+}
+
+model Book {
+  id        Int      @id @default(autoincrement())
+  title     String
+  author    String
+  pages     Int?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  genreId   Int?
+  genre     Genre?   @relation(fields: [genreId], references: [id])
+}
